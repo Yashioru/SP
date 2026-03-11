@@ -127,8 +127,22 @@ export default function Home() {
 
           {/* TEXT BLOCK */}
           <div style={{ maxWidth:480, marginBottom:48 }}>
-            <div className="fade1" style={{ marginBottom:28 }}>
+            <div className="fade1" style={{ marginBottom:20 }}>
               <SelfLogo size={72} />
+            </div>
+            {/* DATE BADGE */}
+            <div className="fade1" style={{ marginBottom:20, display:"inline-flex", alignItems:"center", gap:12,
+              background:"rgba(226,0,116,0.12)", border:"1px solid rgba(226,0,116,0.5)",
+              clipPath:"polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))",
+              padding:"10px 18px", position:"relative" }}>
+              <div style={{ position:"absolute", top:0, left:0, width:10, height:1, background:"#E20074" }} />
+              <div style={{ position:"absolute", top:0, left:0, width:1, height:10, background:"#E20074" }} />
+              <div style={{ position:"absolute", bottom:0, right:0, width:10, height:1, background:"#E20074" }} />
+              <div style={{ position:"absolute", bottom:0, right:0, width:1, height:10, background:"#E20074" }} />
+              <span style={{ fontSize:11, color:"rgba(255,255,255,0.5)" }}>📅</span>
+              <span className="mono" style={{ fontSize:13, fontWeight:700, color:"#E20074",
+                textShadow:"0 0 20px rgba(226,0,116,0.9), 0 0 40px rgba(226,0,116,0.5)",
+                letterSpacing:"0.12em" }}>25 — 26 JUNE 2025</span>
             </div>
             <div className="fade1" style={{ display:"flex", alignItems:"center", gap:10, marginBottom:18 }}>
               <div style={{ width:24, height:1, background:"#237b82" }} />
@@ -225,11 +239,11 @@ export default function Home() {
           <div style={{ marginBottom:36 }}><Waveform color="white" opacity={0.2} /></div>
           <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
             {[
-              {name:"MAINSTAGE ACT 1",time:"22:00",stage:"Main Stage",headliner:true},
-              {name:"MAINSTAGE ACT 2",time:"20:00",stage:"Main Stage",headliner:true},
-              {name:"ARTIST THREE",time:"18:00",stage:"Stage B",headliner:false},
-              {name:"ARTIST FOUR",time:"16:00",stage:"Stage B",headliner:false},
-              {name:"ARTIST FIVE",time:"14:00",stage:"Stage C",headliner:false},
+              {name:"DAVID GUETTA",time:"22:00",stage:"Main Stage",headliner:true},
+              {name:"MARTIN GARRIX",time:"20:00",stage:"Main Stage",headliner:true},
+              {name:"CHAINSMOKERS",time:"18:00",stage:"Stage B",headliner:false},
+              {name:"MARSHMELLO",time:"16:00",stage:"Stage B",headliner:false},
+              {name:"TBA",time:"14:00",stage:"Stage C",headliner:false},
             ].map(({name,time,stage,headliner})=>(
               <div key={name} className={headliner?"acard":"tcard"}>
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
@@ -255,8 +269,8 @@ export default function Home() {
           </div>
           <h2 style={{ fontSize:40, fontWeight:800, marginBottom:40, letterSpacing:"-0.02em", textShadow:"0 0 20px rgba(255,255,255,0.1)" }}>Schedule</h2>
           {[
-            {day:"Day 01",date:"TBA",events:["Gates Open — 12:00","Stage B Opens — 14:00","Main Stage — 18:00","Headliner — 22:00"]},
-            {day:"Day 02",date:"TBA",events:["Gates Open — 12:00","Stage C Opens — 13:00","Stage B — 16:00","Closing Act — 23:00"]},
+            {day:"Day 01",date:"25 June 2025 — Saturday",events:["Gates Open — 12:00","Stage B Opens — 14:00","Main Stage — 18:00","Headliner — 22:00"]},
+            {day:"Day 02",date:"26 June 2025 — Sunday",events:["Gates Open — 12:00","Stage C Opens — 13:00","Stage B — 16:00","Closing Act — 23:00"]},
           ].map(({day,date,events})=>(
             <div key={day} style={{ marginBottom:32 }}>
               <div style={{ display:"flex", alignItems:"baseline", gap:16, marginBottom:16 }}>
@@ -276,12 +290,12 @@ export default function Home() {
         <div style={{ maxWidth:480, margin:"0 auto" }}>
           <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
             <div style={{ width:16, height:1, background:"#E20074" }} />
-            <span className="mono" style={{ fontSize:10, color:"#E20074", letterSpacing:"0.25em", textTransform:"uppercase" }}>Where</span>
+            <span className="mono" style={{ fontSize:10, color:"#E20074", letterSpacing:"0.25em", textTransform:"uppercase" }}>Location</span>
           </div>
-          <h2 style={{ fontSize:40, fontWeight:800, marginBottom:24, letterSpacing:"-0.02em", textShadow:"0 0 20px rgba(255,255,255,0.1)" }}>Venue</h2>
+          <h2 style={{ fontSize:40, fontWeight:800, marginBottom:24, letterSpacing:"-0.02em", textShadow:"0 0 20px rgba(255,255,255,0.1)" }}>Location</h2>
           <div style={{ border:"1px solid rgba(226,0,116,0.25)", borderRadius:20, padding:"28px", background:"rgba(226,0,116,0.04)", marginBottom:24 }}>
-            <div style={{ fontSize:20, fontWeight:800, marginBottom:8 }}>TBA</div>
-            <div className="mono" style={{ fontSize:12, color:"rgba(255,255,255,0.5)", lineHeight:1.8 }}>Location to be announced<br/>Stay tuned for updates</div>
+            <div style={{ fontSize:20, fontWeight:800, marginBottom:8 }}>Máchovo jezero</div>
+            <div className="mono" style={{ fontSize:12, color:"rgba(255,255,255,0.5)", lineHeight:1.8 }}>Czech Republic<br/>25 — 26 June 2025</div>
           </div>
           <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
             {[["🎪","3 Stages"],["🎧","Pro Sound"],["💡","Light Show"],["🍔","Food Zone"]].map(([icon,label])=>(
@@ -305,9 +319,9 @@ export default function Home() {
           <p style={{ color:"rgba(255,255,255,0.78)", fontSize:14, marginBottom:36, lineHeight:1.7 }}>Early bird pricing available for students. Bring your student ID.</p>
           <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
             {[
-              {tier:"Early Bird",price:"TBA",perks:["1-Day Access","Student Discount","General Area"],hot:false},
-              {tier:"Full Pass",price:"TBA",perks:["2-Day Access","All Stages","Exclusive Merch"],hot:true},
-              {tier:"VIP",price:"TBA",perks:["2-Day Access","VIP Area","Meet & Greet"],hot:false},
+              {tier:"Early Bird",price:"€35",perks:["1-Day Access","Student Discount","General Area"],hot:false},
+              {tier:"Full Pass",price:"€120",perks:["2-Day Access","All Stages","Exclusive Merch"],hot:true},
+              {tier:"VIP",price:"€600",perks:["2-Day Access","VIP Area","Meet & Greet"],hot:false},
             ].map(({tier,price,perks,hot})=>(
               <div key={tier} style={{ border:`1px solid ${hot?"#E20074":"rgba(255,255,255,0.1)"}`, borderRadius:20, padding:"24px", background:hot?"rgba(226,0,116,0.08)":"rgba(255,255,255,0.02)", position:"relative" }}>
                 {hot&&<div className="mono" style={{ position:"absolute", top:-10, right:20, background:"#E20074", color:"white", fontSize:9, padding:"4px 10px", borderRadius:100, letterSpacing:"0.15em" }}>POPULAR</div>}
