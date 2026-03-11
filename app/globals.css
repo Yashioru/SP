@@ -4,4 +4,4 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; padding: 0; background: #ffffff; color: #0d1f21; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+body { margin: 0; padding: 0; background: #071a1c; color: white; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
