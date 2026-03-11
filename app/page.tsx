@@ -39,11 +39,12 @@ function Grid() {
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <div style={{
         position: "absolute", inset: 0,
-        backgroundImage: `linear-gradient(rgba(226,0,116,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(226,0,116,0.07) 1px, transparent 1px)`,
+        backgroundImage: "linear-gradient(rgba(35,123,130,0.13) 1px, transparent 1px), linear-gradient(90deg, rgba(35,123,130,0.13) 1px, transparent 1px)",
         backgroundSize: "40px 40px",
       }} />
-      <div style={{ position:"absolute", top:"-10%", left:"60%", width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle, rgba(226,0,116,0.18) 0%, transparent 70%)", filter:"blur(40px)" }} />
-      <div style={{ position:"absolute", bottom:"10%", left:"-5%", width:400, height:400, borderRadius:"50%", background:"radial-gradient(circle, rgba(35,123,130,0.2) 0%, transparent 70%)", filter:"blur(40px)" }} />
+      <div style={{ position:"absolute", top:"15%", left:"-15%", width:620, height:620, borderRadius:"50%", background:"radial-gradient(circle, rgba(35,123,130,0.38) 0%, transparent 65%)", filter:"blur(70px)" }} />
+      <div style={{ position:"absolute", bottom:"-10%", right:"-10%", width:520, height:520, borderRadius:"50%", background:"radial-gradient(circle, rgba(35,123,130,0.28) 0%, transparent 65%)", filter:"blur(55px)" }} />
+      <div style={{ position:"absolute", top:"-5%", right:"10%", width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle, rgba(226,0,116,0.22) 0%, transparent 70%)", filter:"blur(40px)" }} />
     </div>
   );
 }
@@ -59,7 +60,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div style={{ background: "#080612", color: "white", fontFamily: "'Syne', sans-serif", overflowX: "hidden" }}>
+    <div style={{ background: "#071a1c", color: "white", fontFamily: "'Syne', sans-serif", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap');
         @keyframes wavepulse { from{transform:scaleY(0.6)} to{transform:scaleY(1)} }
@@ -83,12 +84,12 @@ export default function Home() {
         input:focus,textarea:focus{border-color:#E20074}
         input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.3)}
         ::-webkit-scrollbar{width:4px}
-        ::-webkit-scrollbar-track{background:#080612}
+        ::-webkit-scrollbar-track{background:#0a1f21}
         ::-webkit-scrollbar-thumb{background:#E20074;border-radius:4px}
       `}</style>
 
       {/* NAV */}
-      <header style={{ position:"fixed", top:0, left:0, right:0, zIndex:100, padding:"16px 20px", background: scrolled?"rgba(8,6,18,0.92)":"transparent", backdropFilter:scrolled?"blur(12px)":"none", borderBottom:scrolled?"1px solid rgba(226,0,116,0.15)":"1px solid transparent", transition:"all 0.3s", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+      <header style={{ position:"fixed", top:0, left:0, right:0, zIndex:100, padding:"16px 20px", background: scrolled?"rgba(7,26,28,0.95)":"transparent", backdropFilter:scrolled?"blur(12px)":"none", borderBottom:scrolled?"1px solid rgba(226,0,116,0.15)":"1px solid transparent", transition:"all 0.3s", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
         <div style={{ display:"flex", alignItems:"center", gap:10 }}>
           <SelfLogo size={36} />
           <span style={{ fontWeight:800, fontSize:18, letterSpacing:"0.08em" }}>SELF<span style={{ color:"#E20074" }}>.</span></span>
@@ -102,7 +103,7 @@ export default function Home() {
       </header>
 
       {/* MOBILE MENU */}
-      <div style={{ position:"fixed", top:0, left:0, right:0, bottom:0, zIndex:99, background:"rgba(8,6,18,0.97)", backdropFilter:"blur(20px)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:36, opacity:menuOpen?1:0, pointerEvents:menuOpen?"all":"none", transition:"opacity 0.3s" }}>
+      <div style={{ position:"fixed", top:0, left:0, right:0, bottom:0, zIndex:99, background:"rgba(7,26,28,0.98)", backdropFilter:"blur(20px)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:36, opacity:menuOpen?1:0, pointerEvents:menuOpen?"all":"none", transition:"opacity 0.3s" }}>
         <SelfLogo size={64} />
         {["Lineup","Schedule","Venue","Tickets"].map(item => (
           <a key={item} href={`#${item.toLowerCase()}`} onClick={()=>setMenuOpen(false)}
@@ -189,7 +190,7 @@ export default function Home() {
       </section>
 
       {/* SCHEDULE */}
-      <section id="schedule" style={{ padding:"80px 20px", background:"rgba(35,123,130,0.05)", borderTop:"1px solid rgba(35,123,130,0.15)", borderBottom:"1px solid rgba(35,123,130,0.15)" }}>
+      <section id="schedule" style={{ padding:"80px 20px", background:"rgba(35,123,130,0.12)", borderTop:"1px solid rgba(35,123,130,0.3)", borderBottom:"1px solid rgba(35,123,130,0.3)" }}>
         <div style={{ maxWidth:480, margin:"0 auto" }}>
           <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
             <div style={{ width:16, height:1, background:"#237b82" }} />
@@ -237,7 +238,7 @@ export default function Home() {
       </section>
 
       {/* TICKETS */}
-      <section id="tickets" style={{ padding:"80px 20px", background:"rgba(226,0,116,0.05)", borderTop:"1px solid rgba(226,0,116,0.15)" }}>
+      <section id="tickets" style={{ padding:"80px 20px", background:"rgba(226,0,116,0.07)", borderTop:"1px solid rgba(226,0,116,0.2)" }}>
         <div style={{ maxWidth:480, margin:"0 auto" }}>
           <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
             <div style={{ width:16, height:1, background:"#E20074" }} />
@@ -291,7 +292,7 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ padding:"40px 20px", borderTop:"1px solid rgba(226,0,116,0.2)", background:"rgba(8,6,18,0.9)" }}>
+      <footer style={{ padding:"40px 20px", borderTop:"1px solid rgba(226,0,116,0.2)", background:"rgba(7,26,28,0.95)" }}>
         <div style={{ maxWidth:480, margin:"0 auto", display:"flex", flexDirection:"column", alignItems:"center", gap:20 }}>
           <SelfLogo size={48} />
           <span style={{ fontWeight:800, fontSize:16, letterSpacing:"0.12em", opacity:0.5 }}>SELF<span style={{ color:"#E20074" }}>.</span></span>
