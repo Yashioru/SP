@@ -1,31 +1,19 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-    extend: {
-      fontFamily: {
-        display: ["'Playfair Display'", "serif"],
-        body: ["'DM Sans'", "sans-serif"],
-      },
-      colors: {
-        brand: {
-          50:  "#fff8f1",
-          100: "#ffe8d0",
-          200: "#ffc89a",
-          300: "#ffa05e",
-          400: "#ff7a2f",
-          500: "#f55d0e",
-          600: "#d44206",
-          700: "#a83005",
-          800: "#7a2106",
-          900: "#4e1504",
-        },
-      },
-    },
-  },
-  plugins: [],
+import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "Welcome",
+  description: "Coming soon",
 };
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
