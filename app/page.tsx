@@ -116,42 +116,101 @@ export default function Home() {
       </div>
 
       {/* HERO */}
-      <section style={{ position:"relative", minHeight:"100svh", display:"flex", flexDirection:"column", justifyContent:"center", padding:"120px 20px 80px" }}>
+      <section style={{ position:"relative", minHeight:"100svh", display:"flex", flexDirection:"column", justifyContent:"center", padding:"100px 20px 60px" }}>
         <Grid />
         <div style={{ position:"absolute", inset:0, overflow:"hidden", pointerEvents:"none" }}>
           <div style={{ position:"absolute", left:0, right:0, height:2, background:"linear-gradient(90deg,transparent,rgba(226,0,116,0.25),transparent)", animation:"scanline 6s linear infinite" }} />
         </div>
-        <div style={{ position:"relative", zIndex:1, maxWidth:480 }}>
-          <div className="fade1" style={{ marginBottom:32 }}>
-            <SelfLogo size={80} />
+
+        {/* Hero content + artist cards stacked */}
+        <div style={{ position:"relative", zIndex:1 }}>
+
+          {/* TEXT BLOCK */}
+          <div style={{ maxWidth:480, marginBottom:48 }}>
+            <div className="fade1" style={{ marginBottom:28 }}>
+              <SelfLogo size={72} />
+            </div>
+            <div className="fade1" style={{ display:"flex", alignItems:"center", gap:10, marginBottom:18 }}>
+              <div style={{ width:24, height:1, background:"#237b82" }} />
+              <span className="mono" style={{ fontSize:11, color:"#237b82", letterSpacing:"0.25em", textTransform:"uppercase" }}>Student's EDM &amp; Love Festival</span>
+            </div>
+            <h1 className="fade2" style={{ fontSize:"clamp(52px,14vw,76px)", fontWeight:800, lineHeight:0.95, letterSpacing:"-0.02em", marginBottom:20, textShadow:"0 0 40px rgba(255,255,255,0.08)" }}>
+              FEEL THE<br />
+              <span style={{ color:"#E20074", textShadow:"0 0 30px rgba(226,0,116,0.8), 0 0 60px rgba(226,0,116,0.4)" }}>BEAT</span>
+              <span style={{ color:"transparent", WebkitTextStroke:"2px rgba(255,255,255,0.25)" }}> LIVE</span>
+            </h1>
+            <div className="fade3" style={{ marginBottom:20 }}><Waveform color="#E20074" opacity={0.7} /></div>
+            <p className="fade3" style={{ fontSize:15, color:"rgba(255,255,255,0.82)", lineHeight:1.7, marginBottom:28, maxWidth:380 }}>
+              The ultimate student music experience. Three stages, 48 hours of non-stop EDM, and a crowd that moves as one.
+            </p>
+            <div className="fade4" style={{ display:"flex", flexDirection:"column", gap:10 }}>
+              <a href="#tickets" className="pbtn pbtn-p" style={{ width:"100%", maxWidth:300 }}>Get Your Tickets</a>
+              <a href="#lineup" className="pbtn pbtn-o" style={{ width:"100%", maxWidth:300 }}>View Lineup</a>
+            </div>
+            <div className="fade4" style={{ marginTop:32, display:"flex", gap:28 }}>
+              {[["3","Stages"],["48h","Non-stop"],["5K+","Attendees"]].map(([val,label])=>(
+                <div key={label}>
+                  <div className="mono" style={{ fontSize:20, fontWeight:700, color:"#E20074", textShadow:"0 0 20px rgba(226,0,116,0.7)" }}>{val}</div>
+                  <div style={{ fontSize:10, color:"rgba(255,255,255,0.5)", textTransform:"uppercase", letterSpacing:"0.12em" }}>{label}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="fade1" style={{ display:"flex", alignItems:"center", gap:10, marginBottom:20 }}>
-            <div style={{ width:24, height:1, background:"#237b82" }} />
-            <span className="mono" style={{ fontSize:11, color:"#237b82", letterSpacing:"0.25em", textTransform:"uppercase" }}>Student's EDM &amp; Love Festival</span>
+
+          {/* HEADLINER CARDS */}
+          <div className="fade4" style={{ display:"flex", flexDirection:"column", gap:0 }}>
+            <div className="mono" style={{ fontSize:9, color:"#E20074", letterSpacing:"0.3em", textTransform:"uppercase", marginBottom:14, display:"flex", alignItems:"center", gap:10 }}>
+              <div style={{ width:20, height:1, background:"#E20074" }} />
+              Headliners
+            </div>
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+              {[
+                { name:"David Guetta",   role:"Electronic / House",  time:"22:00", stage:"Main Stage", img:"/artists/guetta.png",      accent:"#E20074" },
+                { name:"Martin Garrix",  role:"Progressive House",    time:"20:00", stage:"Main Stage", img:"/artists/garrix.png",      accent:"#237b82" },
+                { name:"Chainsmokers",   role:"Electro Pop",          time:"18:00", stage:"Stage B",    img:"/artists/chainsmokers.png", accent:"#E20074" },
+                { name:"Marshmello",     role:"Future Bass / EDM",    time:"16:00", stage:"Stage B",    img:"/artists/marshmello.png",  accent:"#237b82" },
+              ].map(({ name, role, time, stage, img, accent }) => (
+                <div key={name} style={{
+                  position:"relative", overflow:"hidden",
+                  clipPath:"polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))",
+                  background:`linear-gradient(160deg, rgba(${accent==='#E20074'?'226,0,116':'35,123,130'},0.15) 0%, rgba(7,26,28,0.9) 100%)`,
+                  border:`1px solid ${accent}55`,
+                  transition:"all 0.3s",
+                  cursor:"pointer",
+                }}>
+                  {/* Corner accent marks */}
+                  <div style={{ position:"absolute", top:0, left:0, width:12, height:1, background:accent }} />
+                  <div style={{ position:"absolute", top:0, left:0, width:1, height:12, background:accent }} />
+                  <div style={{ position:"absolute", bottom:0, right:0, width:12, height:1, background:accent }} />
+                  <div style={{ position:"absolute", bottom:0, right:0, width:1, height:12, background:accent }} />
+
+                  {/* Artist photo */}
+                  <div style={{ height:130, overflow:"hidden", position:"relative" }}>
+                    <img src={img} alt={name} style={{
+                      width:"100%", height:"100%", objectFit:"cover", objectPosition:"top center",
+                      filter:`grayscale(30%) contrast(1.1)`,
+                      display:"block",
+                    }} />
+                    {/* gradient fade over photo */}
+                    <div style={{ position:"absolute", inset:0, background:`linear-gradient(to bottom, transparent 40%, rgba(7,26,28,0.95) 100%)` }} />
+                    {/* time badge */}
+                    <div className="mono" style={{ position:"absolute", top:8, right:8, fontSize:9, color:"white", background:accent, padding:"3px 7px", letterSpacing:"0.1em" }}>{time}</div>
+                  </div>
+
+                  {/* Info */}
+                  <div style={{ padding:"10px 12px 12px" }}>
+                    <div style={{ fontSize:13, fontWeight:800, letterSpacing:"0.02em", marginBottom:3, textShadow:`0 0 12px ${accent}88` }}>{name}</div>
+                    <div className="mono" style={{ fontSize:9, color:`${accent}`, letterSpacing:"0.12em", textTransform:"uppercase", marginBottom:4 }}>{role}</div>
+                    <div className="mono" style={{ fontSize:9, color:"rgba(255,255,255,0.4)", letterSpacing:"0.08em" }}>{stage}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <h1 className="fade2" style={{ fontSize:"clamp(56px,16vw,80px)", fontWeight:800, lineHeight:0.95, letterSpacing:"-0.02em", marginBottom:24, textShadow:"0 0 40px rgba(255,255,255,0.08)" }}>
-            FEEL THE<br />
-            <span style={{ color:"#E20074", textShadow:"0 0 30px rgba(226,0,116,0.8), 0 0 60px rgba(226,0,116,0.4)" }}>BEAT</span>
-            <span style={{ color:"transparent", WebkitTextStroke:"2px rgba(255,255,255,0.25)" }}> LIVE</span>
-          </h1>
-          <div className="fade3" style={{ marginBottom:24 }}><Waveform color="#E20074" opacity={0.7} /></div>
-          <p className="fade3" style={{ fontSize:16, color:"rgba(255,255,255,0.82)", lineHeight:1.7, marginBottom:36, maxWidth:380 }}>
-            The ultimate student music experience. Three stages, 48 hours of non-stop EDM, and a crowd that moves as one.
-          </p>
-          <div className="fade4" style={{ display:"flex", flexDirection:"column", gap:12 }}>
-            <a href="#tickets" className="pbtn pbtn-p" style={{ width:"100%", maxWidth:320 }}>Get Your Tickets</a>
-            <a href="#lineup" className="pbtn pbtn-o" style={{ width:"100%", maxWidth:320 }}>View Lineup</a>
-          </div>
-          <div className="fade4" style={{ marginTop:48, display:"flex", gap:32 }}>
-            {[["3","Stages"],["48h","Non-stop"],["5K+","Attendees"]].map(([val,label])=>(
-              <div key={label}>
-                <div className="mono" style={{ fontSize:22, fontWeight:700, color:"#E20074", textShadow:"0 0 20px rgba(226,0,116,0.7)" }}>{val}</div>
-                <div style={{ fontSize:11, color:"rgba(255,255,255,0.5)", textTransform:"uppercase", letterSpacing:"0.12em" }}>{label}</div>
-              </div>
-            ))}
-          </div>
+
         </div>
-        <div style={{ position:"absolute", bottom:32, left:"50%", transform:"translateX(-50%)", display:"flex", flexDirection:"column", alignItems:"center", gap:8, opacity:0.4 }}>
+
+        <div style={{ position:"absolute", bottom:20, left:"50%", transform:"translateX(-50%)", display:"flex", flexDirection:"column", alignItems:"center", gap:8, opacity:0.4 }}>
           <span className="mono" style={{ fontSize:10, letterSpacing:"0.2em", textTransform:"uppercase" }}>Scroll</span>
           <div style={{ width:1, height:40, background:"linear-gradient(to bottom,#E20074,transparent)" }} />
         </div>
