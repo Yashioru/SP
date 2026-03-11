@@ -1,194 +1,313 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+function SelfLogo({ size = 48 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="40" cy="40" r="36" stroke="#E20074" strokeWidth="2.5" strokeLinecap="round"
+        strokeDasharray="180 46" strokeDashoffset="0" />
+      <circle cx="40" cy="40" r="26" stroke="#237b82" strokeWidth="1.5" strokeLinecap="round"
+        strokeDasharray="120 43" strokeDashoffset="60" />
+      <circle cx="40" cy="40" r="4" fill="#E20074" />
+      <rect x="28" y="36" width="3" height="8" rx="1.5" fill="white" opacity="0.9" />
+      <rect x="33" y="32" width="3" height="16" rx="1.5" fill="white" opacity="0.9" />
+      <rect x="38" y="34" width="3" height="12" rx="1.5" fill="#E20074" />
+      <rect x="43" y="30" width="3" height="20" rx="1.5" fill="white" opacity="0.9" />
+      <rect x="48" y="35" width="3" height="10" rx="1.5" fill="white" opacity="0.9" />
+    </svg>
+  );
+}
+
+function Waveform({ color = "#E20074", opacity = 0.4 }: { color?: string; opacity?: number }) {
+  const bars = [4, 10, 7, 14, 6, 18, 8, 12, 5, 16, 9, 13, 4, 11, 7, 15, 6, 10, 8, 14];
+  return (
+    <div className="flex items-center gap-[3px]" style={{ opacity }}>
+      {bars.map((h, i) => (
+        <div key={i} style={{
+          width: 2, height: h, borderRadius: 2, background: color,
+          animation: `wavepulse ${0.8 + (i % 4) * 0.2}s ease-in-out infinite alternate`,
+          animationDelay: `${i * 0.05}s`,
+        }} />
+      ))}
+    </div>
+  );
+}
+
+function Grid() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div style={{
+        position: "absolute", inset: 0,
+        backgroundImage: `linear-gradient(rgba(226,0,116,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(226,0,116,0.07) 1px, transparent 1px)`,
+        backgroundSize: "40px 40px",
+      }} />
+      <div style={{ position:"absolute", top:"-10%", left:"60%", width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle, rgba(226,0,116,0.18) 0%, transparent 70%)", filter:"blur(40px)" }} />
+      <div style={{ position:"absolute", bottom:"10%", left:"-5%", width:400, height:400, borderRadius:"50%", background:"radial-gradient(circle, rgba(35,123,130,0.2) 0%, transparent 70%)", filter:"blur(40px)" }} />
+    </div>
+  );
+}
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-[#fdf8f3] text-[#1a0f00] font-['DM_Sans',sans-serif]">
+    <div style={{ background: "#080612", color: "white", fontFamily: "'Syne', sans-serif", overflowX: "hidden" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+        @keyframes wavepulse { from{transform:scaleY(0.6)} to{transform:scaleY(1)} }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes scanline { 0%{top:-10%} 100%{top:110%} }
+        .fade1{animation:fadeUp 0.8s 0.1s ease both}
+        .fade2{animation:fadeUp 0.8s 0.25s ease both}
+        .fade3{animation:fadeUp 0.8s 0.4s ease both}
+        .fade4{animation:fadeUp 0.8s 0.55s ease both}
+        .mono{font-family:'Space Mono',monospace}
+        .pbtn{display:inline-flex;align-items:center;justify-content:center;padding:14px 32px;border-radius:100px;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.25s;cursor:pointer;text-decoration:none;border:2px solid #E20074}
+        .pbtn-p{background:#E20074;color:white}
+        .pbtn-p:hover{background:transparent;color:#E20074}
+        .pbtn-o{background:transparent;color:white;border-color:rgba(255,255,255,0.3)}
+        .pbtn-o:hover{border-color:#237b82;color:#237b82}
+        .acard{border:1px solid rgba(226,0,116,0.2);border-radius:16px;padding:24px;background:rgba(226,0,116,0.04);transition:all 0.3s}
+        .acard:hover{border-color:#E20074;background:rgba(226,0,116,0.08);transform:translateY(-4px)}
+        .tcard{border:1px solid rgba(35,123,130,0.25);border-radius:16px;padding:24px;background:rgba(35,123,130,0.05);transition:all 0.3s}
+        .tcard:hover{border-color:#237b82;background:rgba(35,123,130,0.1)}
+        input,textarea{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:12px;color:white;padding:16px;width:100%;font-family:'Syne',sans-serif;font-size:15px;outline:none;transition:border-color 0.2s;box-sizing:border-box}
+        input:focus,textarea:focus{border-color:#E20074}
+        input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.3)}
+        ::-webkit-scrollbar{width:4px}
+        ::-webkit-scrollbar-track{background:#080612}
+        ::-webkit-scrollbar-thumb{background:#E20074;border-radius:4px}
+      `}</style>
 
-      {/* ── NAV ── */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#fdf8f3]/90 backdrop-blur-sm border-b border-[#1a0f00]/10">
-        <div className="flex items-center justify-between px-5 py-4">
-          <a href="#" className="font-['Playfair_Display',serif] text-xl font-bold tracking-tight">
-            Brand<span className="text-[#f55d0e]">.</span>
-          </a>
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-            className="flex flex-col gap-1.5 p-2 -mr-2"
-          >
-            <span className={`block w-6 h-0.5 bg-[#1a0f00] transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-            <span className={`block w-6 h-0.5 bg-[#1a0f00] transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block w-6 h-0.5 bg-[#1a0f00] transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-          </button>
+      {/* NAV */}
+      <header style={{ position:"fixed", top:0, left:0, right:0, zIndex:100, padding:"16px 20px", background: scrolled?"rgba(8,6,18,0.92)":"transparent", backdropFilter:scrolled?"blur(12px)":"none", borderBottom:scrolled?"1px solid rgba(226,0,116,0.15)":"1px solid transparent", transition:"all 0.3s", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+          <SelfLogo size={36} />
+          <span style={{ fontWeight:800, fontSize:18, letterSpacing:"0.08em" }}>SELF<span style={{ color:"#E20074" }}>.</span></span>
         </div>
-
-        {/* Mobile menu dropdown */}
-        <div className={`overflow-hidden transition-all duration-300 ${menuOpen ? "max-h-64" : "max-h-0"}`}>
-          <nav className="flex flex-col px-5 pb-5 gap-4 text-lg font-medium border-t border-[#1a0f00]/10 pt-4">
-            {["Home", "About", "Services", "Contact"].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                onClick={() => setMenuOpen(false)}
-                className="hover:text-[#f55d0e] transition-colors"
-              >
-                {item}
-              </a>
-            ))}
-          </nav>
-        </div>
+        <button onClick={() => setMenuOpen(!menuOpen)} style={{ display:"flex", flexDirection:"column", gap:5, padding:8, background:"none", border:"none", cursor:"pointer" }}>
+          {[0,1,2].map(i => (
+            <span key={i} style={{ display:"block", width:24, height:2, background:i===1?"#E20074":"white", borderRadius:2, transition:"all 0.3s",
+              transform: menuOpen?(i===0?"rotate(45deg) translate(5px,5px)":i===2?"rotate(-45deg) translate(5px,-5px)":"scaleX(0)"):"none" }} />
+          ))}
+        </button>
       </header>
 
-      {/* ── HERO ── */}
-      <section id="home" className="relative min-h-screen flex flex-col justify-center px-5 pt-24 pb-16 overflow-hidden">
-        {/* Background decorative blob */}
-        <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-[#f55d0e]/10 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-10 -left-16 w-56 h-56 rounded-full bg-[#ffa05e]/15 blur-2xl pointer-events-none" />
+      {/* MOBILE MENU */}
+      <div style={{ position:"fixed", top:0, left:0, right:0, bottom:0, zIndex:99, background:"rgba(8,6,18,0.97)", backdropFilter:"blur(20px)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:36, opacity:menuOpen?1:0, pointerEvents:menuOpen?"all":"none", transition:"opacity 0.3s" }}>
+        <SelfLogo size={64} />
+        {["Lineup","Schedule","Venue","Tickets"].map(item => (
+          <a key={item} href={`#${item.toLowerCase()}`} onClick={()=>setMenuOpen(false)}
+            style={{ fontSize:32, fontWeight:800, color:"white", textDecoration:"none", letterSpacing:"0.05em" }}
+            onMouseEnter={e=>(e.currentTarget.style.color="#E20074")}
+            onMouseLeave={e=>(e.currentTarget.style.color="white")}
+          >{item}</a>
+        ))}
+        <a href="#tickets" onClick={()=>setMenuOpen(false)} className="pbtn pbtn-p">Get Tickets</a>
+      </div>
 
-        <div className="relative z-10 max-w-lg">
-          <span className="inline-block text-xs font-semibold tracking-[0.2em] uppercase text-[#f55d0e] mb-4">
-            Est. 2025
-          </span>
-          <h1 className="font-['Playfair_Display',serif] text-5xl font-black leading-[1.1] mb-6">
-            Something
-            <br />
-            <em className="not-italic text-[#f55d0e]">great</em> is
-            <br />
-            coming.
+      {/* HERO */}
+      <section style={{ position:"relative", minHeight:"100svh", display:"flex", flexDirection:"column", justifyContent:"center", padding:"120px 20px 80px" }}>
+        <Grid />
+        <div style={{ position:"absolute", inset:0, overflow:"hidden", pointerEvents:"none" }}>
+          <div style={{ position:"absolute", left:0, right:0, height:2, background:"linear-gradient(90deg,transparent,rgba(226,0,116,0.4),transparent)", animation:"scanline 6s linear infinite" }} />
+        </div>
+        <div style={{ position:"relative", zIndex:1, maxWidth:480 }}>
+          <div className="fade1" style={{ marginBottom:32 }}>
+            <SelfLogo size={80} />
+          </div>
+          <div className="fade1" style={{ display:"flex", alignItems:"center", gap:10, marginBottom:20 }}>
+            <div style={{ width:24, height:1, background:"#237b82" }} />
+            <span className="mono" style={{ fontSize:11, color:"#237b82", letterSpacing:"0.25em", textTransform:"uppercase" }}>Student's EDM &amp; Love Festival</span>
+          </div>
+          <h1 className="fade2" style={{ fontSize:"clamp(56px,16vw,80px)", fontWeight:800, lineHeight:0.95, letterSpacing:"-0.02em", marginBottom:24 }}>
+            FEEL THE<br />
+            <span style={{ color:"#E20074" }}>BEAT</span>
+            <span style={{ color:"transparent", WebkitTextStroke:"2px rgba(255,255,255,0.25)" }}> LIVE</span>
           </h1>
-          <p className="text-[#1a0f00]/60 text-lg leading-relaxed mb-10">
-            We're building something worth your time. Stay tuned and be the first to know when we launch.
+          <div className="fade3" style={{ marginBottom:24 }}><Waveform color="#E20074" opacity={0.7} /></div>
+          <p className="fade3" style={{ fontSize:16, color:"rgba(255,255,255,0.55)", lineHeight:1.7, marginBottom:36, maxWidth:380 }}>
+            The ultimate student music experience. Three stages, 48 hours of non-stop EDM, and a crowd that moves as one.
           </p>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <a
-              href="#contact"
-              className="inline-flex items-center justify-center bg-[#f55d0e] text-white font-semibold px-7 py-4 rounded-2xl text-base active:scale-95 transition-transform"
-            >
-              Get in touch
-            </a>
-            <a
-              href="#about"
-              className="inline-flex items-center justify-center border-2 border-[#1a0f00]/20 text-[#1a0f00] font-semibold px-7 py-4 rounded-2xl text-base active:scale-95 transition-transform"
-            >
-              Learn more
-            </a>
+          <div className="fade4" style={{ display:"flex", flexDirection:"column", gap:12 }}>
+            <a href="#tickets" className="pbtn pbtn-p" style={{ width:"100%", maxWidth:320 }}>Get Your Tickets</a>
+            <a href="#lineup" className="pbtn pbtn-o" style={{ width:"100%", maxWidth:320 }}>View Lineup</a>
+          </div>
+          <div className="fade4" style={{ marginTop:48, display:"flex", gap:32 }}>
+            {[["3","Stages"],["48h","Non-stop"],["5K+","Attendees"]].map(([val,label])=>(
+              <div key={label}>
+                <div className="mono" style={{ fontSize:22, fontWeight:700, color:"#E20074" }}>{val}</div>
+                <div style={{ fontSize:11, color:"rgba(255,255,255,0.4)", textTransform:"uppercase", letterSpacing:"0.12em" }}>{label}</div>
+              </div>
+            ))}
           </div>
         </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-40">
-          <span className="text-xs tracking-widest uppercase">Scroll</span>
-          <div className="w-px h-8 bg-[#1a0f00] animate-pulse" />
+        <div style={{ position:"absolute", bottom:32, left:"50%", transform:"translateX(-50%)", display:"flex", flexDirection:"column", alignItems:"center", gap:8, opacity:0.4 }}>
+          <span className="mono" style={{ fontSize:10, letterSpacing:"0.2em", textTransform:"uppercase" }}>Scroll</span>
+          <div style={{ width:1, height:40, background:"linear-gradient(to bottom,#E20074,transparent)" }} />
         </div>
       </section>
 
-      {/* ── ABOUT ── */}
-      <section id="about" className="px-5 py-20 bg-[#1a0f00] text-[#fdf8f3]">
-        <div className="max-w-lg mx-auto">
-          <span className="inline-block text-xs font-semibold tracking-[0.2em] uppercase text-[#f55d0e] mb-4">
-            About us
-          </span>
-          <h2 className="font-['Playfair_Display',serif] text-4xl font-bold leading-tight mb-6">
-            Who we are
-          </h2>
-          <p className="text-[#fdf8f3]/70 text-base leading-relaxed mb-6">
-            We're a passionate team dedicated to delivering exceptional value to our customers. Our mission is simple: do great work, treat people well, and build something lasting.
-          </p>
-          <p className="text-[#fdf8f3]/70 text-base leading-relaxed">
-            Every decision we make is guided by our core belief that quality and care should never be compromised.
-          </p>
-
-          <div className="grid grid-cols-2 gap-5 mt-12">
+      {/* LINEUP */}
+      <section id="lineup" style={{ padding:"80px 20px" }}>
+        <div style={{ maxWidth:480, margin:"0 auto" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
+            <div style={{ width:16, height:1, background:"#E20074" }} />
+            <span className="mono" style={{ fontSize:10, color:"#E20074", letterSpacing:"0.25em", textTransform:"uppercase" }}>Artists</span>
+          </div>
+          <h2 style={{ fontSize:40, fontWeight:800, marginBottom:8, letterSpacing:"-0.02em" }}>Lineup</h2>
+          <div style={{ marginBottom:36 }}><Waveform color="#237b82" opacity={0.5} /></div>
+          <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
             {[
-              { value: "100+", label: "Happy Clients" },
-              { value: "5★", label: "Average Rating" },
-              { value: "3+", label: "Years Active" },
-              { value: "24/7", label: "Support" },
-            ].map(({ value, label }) => (
-              <div key={label} className="bg-[#fdf8f3]/5 rounded-2xl p-5">
-                <div className="font-['Playfair_Display',serif] text-3xl font-black text-[#f55d0e]">{value}</div>
-                <div className="text-sm text-[#fdf8f3]/60 mt-1">{label}</div>
+              {name:"MAINSTAGE ACT 1",time:"22:00",stage:"Main Stage",headliner:true},
+              {name:"MAINSTAGE ACT 2",time:"20:00",stage:"Main Stage",headliner:true},
+              {name:"ARTIST THREE",time:"18:00",stage:"Stage B",headliner:false},
+              {name:"ARTIST FOUR",time:"16:00",stage:"Stage B",headliner:false},
+              {name:"ARTIST FIVE",time:"14:00",stage:"Stage C",headliner:false},
+            ].map(({name,time,stage,headliner})=>(
+              <div key={name} className={headliner?"acard":"tcard"}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                  <div>
+                    <div style={{ fontSize:headliner?18:15, fontWeight:headliner?800:600, color:headliner?"white":"rgba(255,255,255,0.75)", letterSpacing:"0.03em" }}>{name}</div>
+                    <div className="mono" style={{ fontSize:11, color:headliner?"#E20074":"#237b82", marginTop:4, letterSpacing:"0.1em" }}>{stage}</div>
+                  </div>
+                  <div className="mono" style={{ fontSize:14, color:"rgba(255,255,255,0.4)" }}>{time}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p style={{ marginTop:20, fontSize:12, color:"rgba(255,255,255,0.3)", fontStyle:"italic" }}>* Full lineup announcement coming soon</p>
+        </div>
+      </section>
+
+      {/* SCHEDULE */}
+      <section id="schedule" style={{ padding:"80px 20px", background:"rgba(35,123,130,0.05)", borderTop:"1px solid rgba(35,123,130,0.15)", borderBottom:"1px solid rgba(35,123,130,0.15)" }}>
+        <div style={{ maxWidth:480, margin:"0 auto" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
+            <div style={{ width:16, height:1, background:"#237b82" }} />
+            <span className="mono" style={{ fontSize:10, color:"#237b82", letterSpacing:"0.25em", textTransform:"uppercase" }}>When</span>
+          </div>
+          <h2 style={{ fontSize:40, fontWeight:800, marginBottom:40, letterSpacing:"-0.02em" }}>Schedule</h2>
+          {[
+            {day:"Day 01",date:"TBA",events:["Gates Open — 12:00","Stage B Opens — 14:00","Main Stage — 18:00","Headliner — 22:00"]},
+            {day:"Day 02",date:"TBA",events:["Gates Open — 12:00","Stage C Opens — 13:00","Stage B — 16:00","Closing Act — 23:00"]},
+          ].map(({day,date,events})=>(
+            <div key={day} style={{ marginBottom:32 }}>
+              <div style={{ display:"flex", alignItems:"baseline", gap:16, marginBottom:16 }}>
+                <span style={{ fontSize:22, fontWeight:800, color:"#E20074" }}>{day}</span>
+                <span className="mono" style={{ fontSize:12, color:"rgba(255,255,255,0.3)" }}>{date}</span>
+              </div>
+              <div style={{ display:"flex", flexDirection:"column", gap:8, paddingLeft:16, borderLeft:"2px solid rgba(226,0,116,0.3)" }}>
+                {events.map(e=><div key={e} className="mono" style={{ fontSize:13, color:"rgba(255,255,255,0.6)" }}>{e}</div>)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* VENUE */}
+      <section id="venue" style={{ padding:"80px 20px" }}>
+        <div style={{ maxWidth:480, margin:"0 auto" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
+            <div style={{ width:16, height:1, background:"#E20074" }} />
+            <span className="mono" style={{ fontSize:10, color:"#E20074", letterSpacing:"0.25em", textTransform:"uppercase" }}>Where</span>
+          </div>
+          <h2 style={{ fontSize:40, fontWeight:800, marginBottom:24, letterSpacing:"-0.02em" }}>Venue</h2>
+          <div style={{ border:"1px solid rgba(226,0,116,0.25)", borderRadius:20, padding:"28px", background:"rgba(226,0,116,0.04)", marginBottom:24 }}>
+            <div style={{ fontSize:20, fontWeight:800, marginBottom:8 }}>TBA</div>
+            <div className="mono" style={{ fontSize:12, color:"rgba(255,255,255,0.4)", lineHeight:1.8 }}>Location to be announced<br/>Stay tuned for updates</div>
+          </div>
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
+            {[["🎪","3 Stages"],["🎧","Pro Sound"],["💡","Light Show"],["🍔","Food Zone"]].map(([icon,label])=>(
+              <div key={label} className="tcard" style={{ display:"flex", alignItems:"center", gap:12 }}>
+                <span style={{ fontSize:20 }}>{icon}</span>
+                <span style={{ fontSize:14, fontWeight:600 }}>{label}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── SERVICES ── */}
-      <section id="services" className="px-5 py-20">
-        <div className="max-w-lg mx-auto">
-          <span className="inline-block text-xs font-semibold tracking-[0.2em] uppercase text-[#f55d0e] mb-4">
-            What we offer
-          </span>
-          <h2 className="font-['Playfair_Display',serif] text-4xl font-bold leading-tight mb-10">
-            Our services
-          </h2>
-          <div className="flex flex-col gap-4">
+      {/* TICKETS */}
+      <section id="tickets" style={{ padding:"80px 20px", background:"rgba(226,0,116,0.05)", borderTop:"1px solid rgba(226,0,116,0.15)" }}>
+        <div style={{ maxWidth:480, margin:"0 auto" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
+            <div style={{ width:16, height:1, background:"#E20074" }} />
+            <span className="mono" style={{ fontSize:10, color:"#E20074", letterSpacing:"0.25em", textTransform:"uppercase" }}>Join Us</span>
+          </div>
+          <h2 style={{ fontSize:40, fontWeight:800, marginBottom:8, letterSpacing:"-0.02em" }}>Tickets</h2>
+          <p style={{ color:"rgba(255,255,255,0.45)", fontSize:14, marginBottom:36, lineHeight:1.7 }}>Early bird pricing available for students. Bring your student ID.</p>
+          <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
             {[
-              { icon: "✦", title: "Service One", desc: "A short description of what this service entails and the value it brings." },
-              { icon: "◈", title: "Service Two", desc: "A short description of what this service entails and the value it brings." },
-              { icon: "⬡", title: "Service Three", desc: "A short description of what this service entails and the value it brings." },
-            ].map(({ icon, title, desc }) => (
-              <div
-                key={title}
-                className="group border border-[#1a0f00]/10 rounded-2xl p-6 hover:border-[#f55d0e]/40 hover:bg-[#f55d0e]/5 transition-all"
-              >
-                <div className="text-2xl text-[#f55d0e] mb-3">{icon}</div>
-                <h3 className="font-semibold text-lg mb-2">{title}</h3>
-                <p className="text-[#1a0f00]/60 text-sm leading-relaxed">{desc}</p>
+              {tier:"Early Bird",price:"TBA",perks:["1-Day Access","Student Discount","General Area"],hot:false},
+              {tier:"Full Pass",price:"TBA",perks:["2-Day Access","All Stages","Exclusive Merch"],hot:true},
+              {tier:"VIP",price:"TBA",perks:["2-Day Access","VIP Area","Meet & Greet"],hot:false},
+            ].map(({tier,price,perks,hot})=>(
+              <div key={tier} style={{ border:`1px solid ${hot?"#E20074":"rgba(255,255,255,0.1)"}`, borderRadius:20, padding:"24px", background:hot?"rgba(226,0,116,0.08)":"rgba(255,255,255,0.02)", position:"relative" }}>
+                {hot&&<div className="mono" style={{ position:"absolute", top:-10, right:20, background:"#E20074", color:"white", fontSize:9, padding:"4px 10px", borderRadius:100, letterSpacing:"0.15em" }}>POPULAR</div>}
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:16 }}>
+                  <div style={{ fontSize:18, fontWeight:800 }}>{tier}</div>
+                  <div className="mono" style={{ fontSize:20, fontWeight:700, color:hot?"#E20074":"rgba(255,255,255,0.6)" }}>{price}</div>
+                </div>
+                <div style={{ display:"flex", flexDirection:"column", gap:6, marginBottom:20 }}>
+                  {perks.map(p=>(
+                    <div key={p} style={{ display:"flex", alignItems:"center", gap:8, fontSize:13, color:"rgba(255,255,255,0.55)" }}>
+                      <div style={{ width:4, height:4, borderRadius:"50%", background:hot?"#E20074":"#237b82" }} />{p}
+                    </div>
+                  ))}
+                </div>
+                <a href="#contact" className={`pbtn ${hot?"pbtn-p":"pbtn-o"}`} style={{ width:"100%", fontSize:12 }}>Register Interest</a>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── CONTACT ── */}
-      <section id="contact" className="px-5 py-20 bg-[#fff8f1]">
-        <div className="max-w-lg mx-auto">
-          <span className="inline-block text-xs font-semibold tracking-[0.2em] uppercase text-[#f55d0e] mb-4">
-            Reach out
-          </span>
-          <h2 className="font-['Playfair_Display',serif] text-4xl font-bold leading-tight mb-4">
-            Let's talk
-          </h2>
-          <p className="text-[#1a0f00]/60 mb-10">
-            Have a question or want to work together? Drop us a message.
-          </p>
-          <form className="flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="text"
-              placeholder="Your name"
-              className="w-full bg-white border border-[#1a0f00]/15 rounded-xl px-4 py-4 text-base outline-none focus:border-[#f55d0e] transition-colors"
-            />
-            <input
-              type="email"
-              placeholder="Email address"
-              className="w-full bg-white border border-[#1a0f00]/15 rounded-xl px-4 py-4 text-base outline-none focus:border-[#f55d0e] transition-colors"
-            />
-            <textarea
-              placeholder="Your message"
-              rows={4}
-              className="w-full bg-white border border-[#1a0f00]/15 rounded-xl px-4 py-4 text-base outline-none focus:border-[#f55d0e] transition-colors resize-none"
-            />
-            <button
-              type="submit"
-              className="w-full bg-[#f55d0e] text-white font-semibold py-4 rounded-xl text-base active:scale-95 transition-transform mt-2"
-            >
-              Send message
-            </button>
+      {/* CONTACT */}
+      <section id="contact" style={{ padding:"80px 20px" }}>
+        <div style={{ maxWidth:480, margin:"0 auto" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
+            <div style={{ width:16, height:1, background:"#237b82" }} />
+            <span className="mono" style={{ fontSize:10, color:"#237b82", letterSpacing:"0.25em", textTransform:"uppercase" }}>Contact</span>
+          </div>
+          <h2 style={{ fontSize:40, fontWeight:800, marginBottom:8, letterSpacing:"-0.02em" }}>Get In Touch</h2>
+          <p style={{ color:"rgba(255,255,255,0.45)", fontSize:14, marginBottom:36 }}>Questions? Sponsorships? Artist bookings? We'd love to hear from you.</p>
+          <form style={{ display:"flex", flexDirection:"column", gap:14 }} onSubmit={e=>e.preventDefault()}>
+            <input type="text" placeholder="Your name" />
+            <input type="email" placeholder="Email address" />
+            <input type="text" placeholder="Subject" />
+            <textarea placeholder="Your message" rows={4} style={{ resize:"none" }} />
+            <button type="submit" className="pbtn pbtn-p" style={{ marginTop:8, border:"none", cursor:"pointer", fontSize:13 }}>Send Message</button>
           </form>
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer className="px-5 py-8 bg-[#1a0f00] text-[#fdf8f3]/40 text-sm text-center">
-        <p className="font-['Playfair_Display',serif] text-[#fdf8f3] text-lg font-bold mb-2">
-          Brand<span className="text-[#f55d0e]">.</span>
-        </p>
-        <p>© {new Date().getFullYear()} — All rights reserved.</p>
+      {/* FOOTER */}
+      <footer style={{ padding:"40px 20px", borderTop:"1px solid rgba(226,0,116,0.2)", background:"rgba(8,6,18,0.9)" }}>
+        <div style={{ maxWidth:480, margin:"0 auto", display:"flex", flexDirection:"column", alignItems:"center", gap:20 }}>
+          <SelfLogo size={48} />
+          <span style={{ fontWeight:800, fontSize:16, letterSpacing:"0.12em", opacity:0.5 }}>SELF<span style={{ color:"#E20074" }}>.</span></span>
+          <div style={{ display:"flex", gap:24 }}>
+            {["Instagram","TikTok","Spotify"].map(s=>(
+              <a key={s} href="#" className="mono" style={{ fontSize:11, color:"rgba(255,255,255,0.3)", textDecoration:"none", letterSpacing:"0.1em", textTransform:"uppercase", transition:"color 0.2s" }}
+                onMouseEnter={e=>(e.currentTarget.style.color="#E20074")}
+                onMouseLeave={e=>(e.currentTarget.style.color="rgba(255,255,255,0.3)")}
+              >{s}</a>
+            ))}
+          </div>
+          <Waveform color="white" opacity={0.2} />
+          <p className="mono" style={{ fontSize:10, color:"rgba(255,255,255,0.25)", letterSpacing:"0.1em", textAlign:"center" }}>
+            © {new Date().getFullYear()} SELF FESTIVAL — STUDENT'S EDM &amp; LOVE FESTIVAL
+          </p>
+        </div>
       </footer>
     </div>
   );
