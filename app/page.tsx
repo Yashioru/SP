@@ -158,51 +158,49 @@ export default function Home() {
           </div>
 
           {/* HEADLINER CARDS */}
-          <div className="fade4" style={{ display:"flex", flexDirection:"column", gap:0 }}>
+          <div className="fade4">
             <div className="mono" style={{ fontSize:9, color:"#E20074", letterSpacing:"0.3em", textTransform:"uppercase", marginBottom:14, display:"flex", alignItems:"center", gap:10 }}>
               <div style={{ width:20, height:1, background:"#E20074" }} />
               Headliners
             </div>
-            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+            <style>{`
+              .artist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+              @media (min-width: 768px) { .artist-grid { grid-template-columns: repeat(4, 1fr); } }
+              .artist-card-wrap { position:relative; overflow:hidden; cursor:pointer; transition:transform 0.3s; }
+              .artist-card-wrap:hover { transform: translateY(-4px); }
+              .artist-card-wrap:hover .artist-overlay { opacity: 1 !important; }
+              .artist-img { width:100%; aspect-ratio:3/4; object-fit:cover; object-position:top center; display:block; filter:grayscale(20%) contrast(1.05); transition:transform 0.4s; }
+              .artist-card-wrap:hover .artist-img { transform: scale(1.04); }
+            `}</style>
+            <div className="artist-grid">
               {[
-                { name:"David Guetta",   role:"Electronic / House",  time:"22:00", stage:"Main Stage", img:"/artists/guetta.png",      accent:"#E20074" },
-                { name:"Martin Garrix",  role:"Progressive House",    time:"20:00", stage:"Main Stage", img:"/artists/garrix.png",      accent:"#237b82" },
-                { name:"Chainsmokers",   role:"Electro Pop",          time:"18:00", stage:"Stage B",    img:"/artists/chainsmokers.png", accent:"#E20074" },
-                { name:"Marshmello",     role:"Future Bass / EDM",    time:"16:00", stage:"Stage B",    img:"/artists/marshmello.png",  accent:"#237b82" },
+                { name:"David Guetta",  role:"Electronic / House", time:"22:00", stage:"Main Stage", img:"/artists/guetta.png",       accent:"#E20074" },
+                { name:"Martin Garrix", role:"Progressive House",  time:"20:00", stage:"Main Stage", img:"/artists/garrix.png",       accent:"#237b82" },
+                { name:"Chainsmokers",  role:"Electro Pop",        time:"18:00", stage:"Stage B",    img:"/artists/chainsmokers.png", accent:"#E20074" },
+                { name:"Marshmello",    role:"Future Bass / EDM",  time:"16:00", stage:"Stage B",    img:"/artists/marshmello.png",   accent:"#237b82" },
               ].map(({ name, role, time, stage, img, accent }) => (
-                <div key={name} style={{
-                  position:"relative", overflow:"hidden",
-                  clipPath:"polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))",
-                  background:`linear-gradient(160deg, rgba(${accent==='#E20074'?'226,0,116':'35,123,130'},0.15) 0%, rgba(7,26,28,0.9) 100%)`,
-                  border:`1px solid ${accent}55`,
-                  transition:"all 0.3s",
-                  cursor:"pointer",
+                <div key={name} className="artist-card-wrap" style={{
+                  clipPath:"polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px))",
+                  outline:`1px solid ${accent}66`,
                 }}>
-                  {/* Corner accent marks */}
-                  <div style={{ position:"absolute", top:0, left:0, width:12, height:1, background:accent }} />
-                  <div style={{ position:"absolute", top:0, left:0, width:1, height:12, background:accent }} />
-                  <div style={{ position:"absolute", bottom:0, right:0, width:12, height:1, background:accent }} />
-                  <div style={{ position:"absolute", bottom:0, right:0, width:1, height:12, background:accent }} />
+                  {/* Photo */}
+                  <img src={img} alt={name} className="artist-img" />
 
-                  {/* Artist photo */}
-                  <div style={{ height:130, overflow:"hidden", position:"relative" }}>
-                    <img src={img} alt={name} style={{
-                      width:"100%", height:"100%", objectFit:"cover", objectPosition:"top center",
-                      filter:`grayscale(30%) contrast(1.1)`,
-                      display:"block",
-                    }} />
-                    {/* gradient fade over photo */}
-                    <div style={{ position:"absolute", inset:0, background:`linear-gradient(to bottom, transparent 40%, rgba(7,26,28,0.95) 100%)` }} />
-                    {/* time badge */}
-                    <div className="mono" style={{ position:"absolute", top:8, right:8, fontSize:9, color:"white", background:accent, padding:"3px 7px", letterSpacing:"0.1em" }}>{time}</div>
+                  {/* Bottom gradient + info — always visible */}
+                  <div style={{ position:"absolute", bottom:0, left:0, right:0, background:`linear-gradient(to top, rgba(7,26,28,0.97) 0%, rgba(7,26,28,0.7) 55%, transparent 100%)`, padding:"32px 10px 10px" }}>
+                    <div style={{ fontSize:13, fontWeight:800, letterSpacing:"0.02em", marginBottom:2, textShadow:`0 0 16px ${accent}` }}>{name}</div>
+                    <div className="mono" style={{ fontSize:8, color:accent, letterSpacing:"0.14em", textTransform:"uppercase", marginBottom:3 }}>{role}</div>
+                    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                      <div className="mono" style={{ fontSize:8, color:"rgba(255,255,255,0.45)", letterSpacing:"0.08em" }}>{stage}</div>
+                      <div className="mono" style={{ fontSize:8, color:"white", background:accent, padding:"2px 6px", letterSpacing:"0.1em" }}>{time}</div>
+                    </div>
                   </div>
 
-                  {/* Info */}
-                  <div style={{ padding:"10px 12px 12px" }}>
-                    <div style={{ fontSize:13, fontWeight:800, letterSpacing:"0.02em", marginBottom:3, textShadow:`0 0 12px ${accent}88` }}>{name}</div>
-                    <div className="mono" style={{ fontSize:9, color:`${accent}`, letterSpacing:"0.12em", textTransform:"uppercase", marginBottom:4 }}>{role}</div>
-                    <div className="mono" style={{ fontSize:9, color:"rgba(255,255,255,0.4)", letterSpacing:"0.08em" }}>{stage}</div>
-                  </div>
+                  {/* Sharp corner ticks */}
+                  <div style={{ position:"absolute", top:0, left:0, width:14, height:2, background:accent }} />
+                  <div style={{ position:"absolute", top:0, left:0, width:2, height:14, background:accent }} />
+                  <div style={{ position:"absolute", bottom:0, right:0, width:14, height:2, background:accent }} />
+                  <div style={{ position:"absolute", bottom:0, right:0, width:2, height:14, background:accent }} />
                 </div>
               ))}
             </div>
